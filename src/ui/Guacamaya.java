@@ -9,6 +9,8 @@ public class Guacamaya {
     // Arreglos de precios y unidades para todo el programa
     public static double[] precios;
     public static int[] unidades;
+    public static int referencias;
+    public static int total;
 
     public static void main(String[] args) {
 
@@ -24,6 +26,7 @@ public class Guacamaya {
     public static void inicializarGlobales() {
 
         reader = new Scanner(System.in);
+        int referencias = 0;
 
     }
 
@@ -47,8 +50,7 @@ public class Guacamaya {
             System.out.println("2. Calcular la cantidad total de unidades vendidas en el dia");
             System.out.println("3. Calcular el precio promedio de las referencias de producto vendidas en el dia");
             System.out.println("4. Calcular las ventas totales (dinero recaudado) durante el dia");
-            System.out.println("5. Consultar el numero de referencias de productos que en el dia han superado un limite minimo de ventas");
-            System.out.println("6. Salir");
+            System.out.println("5. Salir");
             System.out.println("\nDigite la opcion a ejecutar");
             int opcion = reader.nextInt();
 
@@ -66,11 +68,6 @@ public class Guacamaya {
                     System.out.println("\nLas ventas totales (dinero recaudado) durante el dia fueron: "+calcularVentasTotales());
                     break;
                 case 5:
-                    System.out.println("\nDigite el limite minimo de ventas a analizar");
-                    double limite = reader.nextDouble();
-                    System.out.println("\nDe las "+precios.length+" referencias vendidas en el dia, "+consultarReferenciasSobreLimite(limite)+" superaron el limite minimo de ventas de "+limite);
-                    break;
-                case 6:
                     System.out.println("\nGracias por usar nuestros servicios!");
                     salir = true;
                     reader.close();
@@ -95,44 +92,84 @@ public class Guacamaya {
     public static void establecerCantidadVendida() {
 
         System.out.println("\nDigite el numero de referencias de producto diferentes vendidas en el dia ");
-        int referencias = reader.nextInt();
+        referencias = reader.nextInt();
 
         precios = new double[referencias];
         unidades = new int[referencias];
 
+        
+
     }
 
+    /**
+     * Descripcion: Este metodo se encarga de preguntar al usuario el numero de de unidades segun la refrencia y el precio del mismo
+     * pre: El Scanner reader debe estar inicializado
+     * pre: Los arreglos precios y unidades deben estar declarados
+     * pos: Los arreglos precios y unidades son llenados
+     */
     public static void solicitarDatos(){
 
-        
-     
+
+        for(int i = 0; i < precios.length; i++) {
+            System.out.println("Digite el precio de la unidad " +(i+1));
+            double precio = reader.nextDouble();
+            precios[i] = precio;
+            
+        }
+
+        for(int o = 0; o < unidades.length; o++) {
+                System.out.println("Digite el numero de unidades vendidas de la unidad " +(o+1));
+                int unidad = reader.nextInt();
+                unidades[o] = unidad;
+        }
     }
 
+    /**
+     * Descripcion: Este metodo se encarga de calcular el total de unidades vendidas
+     * pre: El Scanner reader debe estar inicializado
+     * pre: Los arreglos precios y unidades deben estar llenados
+     * pos: Da el total de unidades vendidas
+     * @return: int, total de unidades vendidas
+     */
     public static int calcularTotalUnidadesVendidas(){
-
-        return 0;
-
-
+        int total = 0;
+        for (int i = 0; i < unidades.length; i++) {
+            System.out.println(unidades[i]);
+            total += unidades[i];
+        }
+        return total;
     }
 
+    /**
+     * Descripcion: Este metodo se encarga de calcular el precio promedio 
+     * pre: El Scanner reader debe estar inicializado
+     * pre: Los arreglos precios y unidades deben estar declarados
+     * pos: Da el promedio de los precios
+     * @return: double, promedio de precios de las unidades vendidas
+     */
     public static double calcularPrecioPromedio(){
-
-        return 0;
-
-
+		double promedio = 0.0, totalPrecios = 0.0;
+		for(int i = 0; i < precios.length; i++) {
+            totalPrecios += precios[i];
+            promedio = totalPrecios /= precios.length;
+        }
+        return promedio;
     }
 
+    /**
+     * Descripcion: Este metodo se encarga de calcular el precio promedio 
+     * pre: El Scanner reader debe estar inicializado
+     * pre: Los arreglos precios y unidades deben estar declarados
+     * pos: Da el totasl de lo vendido en el proceso
+     * @return: double, ventas totales
+     */
     public static double calcularVentasTotales(){
 
-        return 0;
-
-
-    }
-
-    public static int consultarReferenciasSobreLimite(double limite){
-
-        return 0;
+        double total = 0;
+        for (int i = 0; i < unidades.length; i++) {
+            total += precios[i] * unidades[i];
+        }
+        return total;
 
     }
-
 }
